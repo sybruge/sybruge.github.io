@@ -1,0 +1,72 @@
+---
+title: "R Markdown & Leaflet"
+author: "SBR"
+date: "March 8, 2017"
+output: html_document
+---
+
+### Date
+```{r, echo=FALSE}
+dateDownloaded <- date()
+dateDownloaded
+# Get data about higher education establishements near Paris
+
+fileURL = "https://data.iledefrance.fr/explore/dataset/etablissements-denseignement-superieur/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true"
+
+data=read.csv(file=fileURL,encoding="UTF-8",sep=";")
+```
+### Map
+
+This presentation is about french higher education establishements near Paris.
+
+- Data were found here : [Open Data de la Region Ile-de-France](https://data.iledefrance.fr)
+- Uses *Marker Clusters*
+- Uses *Custom icons* (ion-university)
+- Uses *Custom icon colors* : depends on the establishement status (green if public or blue if not) 
+ 
+```{r, echo=FALSE}
+library(data.table)
+
+col_headings <- c("Code.UAI","type.etablissement","nom","sigle","statut","tutelle","universite","adresse","CP","commune","departement","academie","Latitude","Longitude","X.Y","lien.site.onisep.fr")
+
+names(data) <- col_headings
+
+data <- as.data.table(data)
+setkey(data,nom)
+
+# customize icon color
+
+library(leaflet)
+
+getColor <- function(data) {
+  sapply(data$statut, function(statut) {
+  if(statut == "Public") {
+    "green"
+  } else {
+    "blue"
+  } })
+}
+
+icons <- awesomeIcons(
+  icon = 'ion-university',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = getColor(data)
+)
+
+# map with clusters, custom markers and pop-up with type and name of the establishement
+
+d = data %>% leaflet() %>% addTiles() %>% 
+  addAwesomeMarkers(~Longitude, ~Latitude,
+     clusterOptions = markerClusterOptions(), 
+     popup = ~paste(type.etablissement,nom,sep=" - "), 
+     icon = icons)
+d
+
+```
+
+## Conclusion
+
+For more details about the leaflet package for R 
+visit http://rstudio.github.io/leaflet/.
+
