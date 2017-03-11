@@ -38,7 +38,5 @@ dfgirlsboys = dfgirlsboys[order(dfgirlsboys$Annee),]
 suppressPackageStartupMessages(library(plotly))
 library(plotly)
 p = plot_ly(dfgirlsboys,x=~Annee,y=~Nombre,color=~Prenoms,type="scatter",mode="lines",linetype=~Sexe)
-
 p
 ```
-### Thank You
