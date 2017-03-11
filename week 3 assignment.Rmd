@@ -28,6 +28,7 @@ dfgirls = df[df$Prenoms %in% girls8$Prenoms & df$Sexe=="F",]
 dfboys = df[df$Prenoms %in% boys8$Prenoms & df$Sexe=="M",]
 dfgirlsboys = rbind(dfgirls,dfboys)
 dfgirlsboys = dfgirlsboys[order(dfgirlsboys$Annee),]
+dimnames(dfgirlsboys)[2][[1]] <- c("First_Name","Sex","Year","Count")
 ```
 
 ## Most frequent first names in Paris between 2004 and 2012
@@ -37,6 +38,6 @@ dfgirlsboys = dfgirlsboys[order(dfgirlsboys$Annee),]
 # Plot lines
 suppressPackageStartupMessages(library(plotly))
 library(plotly)
-p = plot_ly(dfgirlsboys,x=~Annee,y=~Nombre,color=~Prenoms,type="scatter",mode="lines",linetype=~Sexe)
+p = plot_ly(dfgirlsboys,x=~Year,y=~Count,color=~First_Name,type="scatter",mode="lines",linetype=~Sex)
 p
 ```
