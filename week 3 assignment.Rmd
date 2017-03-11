@@ -1,0 +1,44 @@
+---
+title: "R Markdown & Plotly (SBR)"
+output: html_document
+---
+
+```{r, echo=FALSE,comment=NA}
+dateDownloaded <- date()
+print(dateDownloaded)
+
+# Get data about higher education establishements near Paris
+df=read.csv("liste_des_prenoms_2004_a_2012.csv",encoding="UTF-8",sep=";",stringsAsFactor=FALSE)
+
+# Sum by (Prenom, Sexe, Année) after replace characters é and è
+df=aggregate(data=df, Nombre ~ (gsub("é|è","e",Prenoms) + Sexe + Annee), sum)
+dimnames(df)[2][[1]][1] <- "Prenoms"
+
+# Sum by (Prenom, Sexe),
+df2=aggregate(data=df, Nombre ~ Prenoms + Sexe, sum)
+
+#  sort by Nombre decreasing and find the first 20 of each Sexe
+girls = df2[df2$Sexe=="F",]
+girls8 = head(girls[order(girls$Nombre,decreasing=TRUE),],8)
+boys = df2[df2$Sexe=="M",]
+boys8 = head(boys[order(boys$Nombre,decreasing=TRUE),],8)
+
+# Filter on the first 8 and sort by Annee
+dfgirls = df[df$Prenoms %in% girls8$Prenoms & df$Sexe=="F",]
+dfboys = df[df$Prenoms %in% boys8$Prenoms & df$Sexe=="M",]
+dfgirlsboys = rbind(dfgirls,dfboys)
+dfgirlsboys = dfgirlsboys[order(dfgirlsboys$Annee),]
+```
+
+## Most frequent first names in Paris between 2004 and 2012
+###[Paris OpenData](https://opendata.paris.fr)
+
+```{r, echo=FALSE,warning=FALSE}
+# Plot lines
+suppressPackageStartupMessages(library(plotly))
+library(plotly)
+p = plot_ly(dfgirlsboys,x=~Annee,y=~Nombre,color=~Prenoms,type="scatter",mode="lines",linetype=~Sexe)
+
+p
+```
+### Thank You
