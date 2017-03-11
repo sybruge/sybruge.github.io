@@ -1,11 +1,11 @@
 ---
-title: "R Markdown & Plotly (SBR)"
-output: html_document
+title: "R Markdown & Plotly"
+author: SBR
+date: March 11, 2017
+output: ioslides_presentation
 ---
 
 ```{r, echo=FALSE,comment=NA}
-dateDownloaded <- date()
-print(dateDownloaded)
 
 # Get data about higher education establishements near Paris
 df=read.csv("liste_des_prenoms_2004_a_2012.csv",encoding="UTF-8",sep=";",stringsAsFactor=FALSE)
