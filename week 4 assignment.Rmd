@@ -1,0 +1,135 @@
+---
+title: "Shiny Application and Reproducible Pitch"
+author: "SBR"
+date: "March 25, 2017"
+output:
+  ioslides_presentation: 
+    smaller: yes
+  slidy_presentation: default
+subtitle: Data Products Week 4 Assignment
+---
+
+<!-- more -->
+
+## Getting started
+This shiny web app is about speed (x) and stopping distance of cars (y)
+
+The application includes the following:
+
+1. Some form of input (sliderInput, checkbox, brush)
+2. Some operation on the ui input in sever.R (filter selected data, calculate linear model with brushed data ...)
+3. Some reactive output displayed as a result of server calculations (plot with scattered points, x axis, and straight line, slope and intercept  ...)
+4. Documentation
+
+## Inputs
+* Set range of speeds with sliderinput and filter the data in all the calculations and displays
+
+* Calculate lowess regression (locally weighted scatterplot smoothing) and draws it only if checkbox "show lowess"" is activated
+
+* Possibility to brush the plot and calculate a linear model
+
+## Outputs 
+
+### Plot : 
+To brush it causes :
+
+* calculation of the linear model
+
+* calculation and display of slope and intercept of the model 
+
+* adding the straight line of the linear model to the plot (in accordance with the selected data)
+ 
+### Data tab
+Display the selected data in a table 
+
+## Cars application
+```{r, echo=FALSE,comment=NA,warning=FALSE}
+
+library(dplyr, warn.conflicts = FALSE)
+library(shiny, warn.conflicts = FALSE)
+
+ui <- fluidPage(
+   
+          # Application title
+          titlePanel("Speed and stopping distances of cars"),
+   
+          sidebarLayout(
+        
+            sidebarPanel(
+              
+              h4("Slope"),
+              textOutput("slopeOut"),
+              
+              h4("Intercept"),
+              textOutput("interceptOut"),
+              
+              br(),
+              # slider input for range of speed
+              sliderInput("sliderX", "Range of speed (mph)", 0, 25, step=1, value = c(0, 25)),
+        
+              # CheckBox for printing lowess (Locally weighted regression and smoothing scatter plots)
+              checkboxInput("show", "Show lowess", value = TRUE)
+            ),
+                  
+            mainPanel(
+              tabsetPanel(type = "tabs",
+                  # tab "plot"
+                  tabPanel(
+                    # Show a plot of the generated distribution
+                    "Plot", plotOutput("plot1", brush = brushOpts(id = "brush1",delay = 5000))
+                  ),
+                  # tab "data table"
+                  tabPanel(
+                    # Show a plot of the generated distribution
+                    "Table", fluidRow(column(4, tableOutput("cars")))
+                  )
+              )
+          )
+      )
+)
+
+server <- function(input, output) {
+  
+  model <- reactive({
+    # Filter data with range in sliderInput
+    c <- filter(cars, cars$speed >= input$sliderX[1] & cars$speed <=  input$sliderX[2])
+    brushed_data <- brushedPoints(c, input$brush1, xvar= "speed", yvar = "dist")
+    if (nrow(brushed_data) < 2) {return(NULL)}
+    # calculate linear model
+    lm(dist ~ speed, data = brushed_data)
+  })
+   
+   # get slope from model
+   output$slopeOut <- renderText({
+     m <- model()
+     if (is.null(m)){"No model found"} else {m$coefficients[1]} 
+   })
+   
+   # get intercept from model
+   output$interceptOut <- renderText({
+     m <- model()
+     if (is.null(m)){"No model found"} else {m$coefficients[2]} 
+   })
+   
+   # get data table (data are filtered whith sliderInput range)
+   output$cars <- renderTable({
+     filter(cars, cars$speed >= input$sliderX[1] & cars$speed <=  input$sliderX[2])
+   })
+   
+   # plot with filtered data
+   output$plot1 <- renderPlot({
+     c <- filter(cars, cars$speed >= input$sliderX[1] & cars$speed <=  input$sliderX[2])
+     m <- model()
+     plot(c$speed, c$dist, xlab="Speed", ylab= "Stopping distance (ft)", 
+          xlim = input$sliderX, xaxp = (c(input$sliderX,10)),
+          main = "Cars", cex= 1.5, pch=16, bty="n")
+     # add linear straight line to the plot
+     if (!is.null(m)) { abline(m, col="blue", lwd=2) }
+     # add lowess if required (check checkbox) 
+     if (input$show == TRUE) lines(lowess(c), col="red")
+   })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
