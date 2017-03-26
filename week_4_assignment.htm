@@ -8,8 +8,8 @@
 <script src="week_4_assignment_fichiers/shiny.js"></script>  <script src="week_4_assignment_fichiers/rmd_loader.js"></script>
   <link href="week_4_assignment_fichiers/rmd_loader.css" rel="stylesheet">
 
-<meta content="width=device-width, initial-scale=1" name="viewport"><link href="week_4_assignment_fichiers/bootstrap.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/bootstrap.js"></script><script src="week_4_assignment_fichiers/html5shiv.js"></script><script src="week_4_assignment_fichiers/respond.js"></script><link href="week_4_assignment_fichiers/fonts.css" rel="stylesheet" type="text/css"><link href="week_4_assignment_fichiers/default.css" rel="stylesheet" type="text/css"><link href="week_4_assignment_fichiers/phone.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/modernizr.js"></script><script src="week_4_assignment_fichiers/prettify.js"></script><script src="week_4_assignment_fichiers/lang-r.js"></script><script src="week_4_assignment_fichiers/lang-yaml.js"></script><script src="week_4_assignment_fichiers/hammer.js"></script><script src="week_4_assignment_fichiers/slide-controller.js"></script><script src="week_4_assignment_fichiers/slide-deck.js"></script><link href="week_4_assignment_fichiers/rmd_perf.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/rmd_perf.js"></script><meta content="127.0.0.1:42659" name="rstudio_origin"><script src="week_4_assignment_fichiers/rsiframe.js"></script>
-  <title>Shiny Application and Reproducible Pitch</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"><link href="week_4_assignment_fichiers/bootstrap.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/bootstrap.js"></script><script src="week_4_assignment_fichiers/html5shiv.js"></script><script src="week_4_assignment_fichiers/respond.js"></script><link href="week_4_assignment_fichiers/fonts.css" rel="stylesheet" type="text/css"><link href="week_4_assignment_fichiers/default.css" rel="stylesheet" type="text/css"><link href="week_4_assignment_fichiers/phone.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/modernizr.js"></script><script src="week_4_assignment_fichiers/prettify.js"></script><script src="week_4_assignment_fichiers/lang-r.js"></script><script src="week_4_assignment_fichiers/lang-yaml.js"></script><script src="week_4_assignment_fichiers/hammer.js"></script><script src="week_4_assignment_fichiers/slide-controller.js"></script><script src="week_4_assignment_fichiers/slide-deck.js"></script><link href="week_4_assignment_fichiers/rmd_perf.css" rel="stylesheet" type="text/css"><script src="week_4_assignment_fichiers/rmd_perf.js"></script><meta content="127.0.0.1:42163" name="rstudio_origin"><script src="week_4_assignment_fichiers/rsiframe.js"></script>
+  <title>Shiny Application &amp;amp; Reproducible Pitch</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,13 +23,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- base href="http://127.0.0.1:3660/week%204%20assignment.Rmd" -->
+  <!-- base href="http://127.0.0.1:3337/week_4_assignment.Rmd" -->
 
   <script type="text/javascript">
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Shiny Application and Reproducible Pitch',
+                title: 'Shiny Application &amp; Reproducible Pitch',
                         subtitle: 'Data Products Week 4 Assignment',
                 useBuilds: true,
         usePrettify: true,
@@ -196,19 +196,17 @@
 
 <slides>
 
-  <slide data-total-slides="5" data-slide-num="1" class="title-slide segue nobackground">
+  <slide data-total-slides="5" data-slide-num="1" class="title-slide segue nobackground current">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
-      <h1 data-config-title="">Shiny Application and Reproducible Pitch</h1>
+      <h1 data-config-title="">Shiny Application &amp; Reproducible Pitch</h1>
       <h2 data-config-subtitle="">Data Products Week 4 Assignment</h2>
       <p data-config-presenter="">SBR<br></p>
             <p style="margin-top: 6px; margin-left: -2px;">March 25, 2017</p>
           </hgroup>
   </slide>
 
-<!-- more -->
-
-<slide data-total-slides="5" data-slide-num="2" class="far-past"><hgroup><h2>Getting started</h2></hgroup><article id="getting-started" class="smaller ">
+<slide data-total-slides="5" data-slide-num="2" class="next"><hgroup><h2>Getting started</h2></hgroup><article id="getting-started">
 
 <p>This shiny web app is about speed (x) and stopping distance of cars (y)</p>
 
@@ -216,26 +214,26 @@
 
 <ol>
 <li>Some form of input (sliderInput, checkbox, brush)</li>
-<li>Some operation on the ui input in sever.R (filter selected data, calculate linear model with brushed data …)</li>
+<li>Some operation on the ui input in server.R (filter selected data, calculate linear model with brushed data …)</li>
 <li>Some reactive output displayed as a result of server calculations 
-(plot with scattered points, x axis, and straight line, slope and 
-intercept …)</li>
+(plot with scattered points, straight line for linear model, values of 
+slope and intercept …)</li>
 <li>Documentation</li>
 </ol>
 
-</article></slide><slide data-total-slides="5" data-slide-num="3" class="past"><hgroup><h2>Inputs</h2></hgroup><article id="inputs" class="smaller ">
+</article></slide><slide data-total-slides="5" data-slide-num="3" class="far-next"><hgroup><h2>Inputs</h2></hgroup><article id="inputs">
 
 <ul>
 <li><p>Set range of speeds with sliderinput and filter the data in all the calculations and displays</p></li>
-<li><p>Calculate lowess regression (locally weighted scatterplot smoothing) and draws it only if checkbox "show lowess"" is activated</p></li>
+<li><p>Calculate lowess regression (locally weighted scatterplot smoothing) and draws it only if checkbox "show lowess" is activated</p></li>
 <li><p>Possibility to brush the plot and calculate a linear model</p></li>
 </ul>
 
-</article></slide><slide data-total-slides="5" data-slide-num="4" class="current"><hgroup><h2>Outputs</h2></hgroup><article id="outputs" class="smaller ">
+</article></slide><slide data-total-slides="5" data-slide-num="4" class=""><hgroup><h2>Outputs</h2></hgroup><article id="outputs">
 
-<h3>Plot :</h3>
+<h3>Plot tab :</h3>
 
-<p>To brush it causes :</p>
+<p>To brush plot causes :</p>
 
 <ul>
 <li><p>calculation of the linear model</p></li>
@@ -243,13 +241,13 @@ intercept …)</li>
 <li><p>adding the straight line of the linear model to the plot (in accordance with the selected data)</p></li>
 </ul>
 
-<h3>Data tab</h3>
+<h3>Data tab :</h3>
 
 <p>Display the selected data in a table</p>
 
-</article></slide><slide data-total-slides="5" data-slide-num="5" class="next"><hgroup><h2>Cars application</h2></hgroup><article id="cars-application" class="smaller ">
+</article></slide><slide data-total-slides="5" data-slide-num="5" class=""><hgroup><h2>Cars application</h2></hgroup><article id="cars-application">
 
-<iframe src="week_4_assignment_fichiers/a.htm" class="shiny-frame" height="400" width="100%"></iframe></article></slide>
+<iframe src="week_4_assignment_fichiers/screenshot2.PNG" class="shiny-frame" height="400" width="100%"></iframe></article></slide>
 
 
   <slide class="backdrop"></slide>
